@@ -1,17 +1,22 @@
-
 import React, { useState } from 'react';
+import axios from 'axios';
 import './Community.css';
 
-const Community = ({ onSubmit }) => {
+const Community = ({ onMemberAdded }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (name && email) {
-      onSubmit({ name, email });
-      setName('');
-      setEmail('');
+      try {
+        const response = await axios.post('http://localhost:5000/api/members', { name, email });
+        onMemberAdded(response.data);
+        setName('');
+        setEmail('');
+      } catch (error) {
+        console.error('Error adding member:', error);
+      }
     }
   };
 

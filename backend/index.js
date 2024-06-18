@@ -1,5 +1,3 @@
-
-
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -20,6 +18,7 @@ mongoose.connect(process.env.MONGO_URI, {
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.log('Error connecting to MongoDB:', err));
 
+
 const memberSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
@@ -36,19 +35,22 @@ app.post('/api/members', async (req, res) => {
     await newMember.save();
     res.status(201).json(newMember);
   } catch (error) {
+    console.error('Error adding member:', error);
     res.status(500).json({ message: 'Error adding member', error });
   }
 });
+
 
 app.get('/api/members', async (req, res) => {
   try {
     const members = await Member.find();
     res.status(200).json(members);
   } catch (error) {
+    console.error('Error fetching members:', error);
     res.status(500).json({ message: 'Error fetching members', error });
   }
 });
 
-
+// Start the server
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server running on port ${port}`));

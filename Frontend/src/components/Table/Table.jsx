@@ -17,9 +17,8 @@ export const Table_main = ({ apiEndpoint }) => {
   const [lccnValue, setLccnValue] = useState('');
   const [communityMembers, setCommunityMembers] = useState([]);
 
-  const handleCommunitySubmit = (formData) => {
-    console.log('Community form submitted:', formData);
-    setCommunityMembers([...communityMembers, { ...formData, joined: new Date().toLocaleDateString() }]);
+  const handleCommunitySubmit = async (member) => {
+    setCommunityMembers([...communityMembers, member]);
   };
 
   useEffect(() => {
@@ -40,7 +39,21 @@ export const Table_main = ({ apiEndpoint }) => {
   }, [apiEndpoint]);
 
   useEffect(() => {
-    console.log(`State Filter: ${stateValue}, LCCN Filter: ${lccnValue}`); // Log filter states
+    const fetchMembers = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/members');
+        setCommunityMembers(response.data);
+      } catch (error) {
+        console.error('Error fetching members:', error);
+        setError(error);
+      }
+    };
+
+    fetchMembers();
+  }, []);
+
+  useEffect(() => {
+    console.log(`State Filter: ${stateValue}, LCCN Filter: ${lccnValue}`); 
 
     let filtered = data;
 
@@ -119,7 +132,7 @@ export const Table_main = ({ apiEndpoint }) => {
               <tr key={index}>
                 <td>{member.name}</td>
                 <td>{member.email}</td>
-                <td>{member.joined}</td>
+                <td>{new Date(member.joined).toLocaleDateString()}</td>
               </tr>
             ))}
           </tbody>
