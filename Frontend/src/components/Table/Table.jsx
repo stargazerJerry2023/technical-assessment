@@ -1,14 +1,14 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
-import './Table.css'
-import Table from 'react-bootstrap/Table'   
+import React from 'react';
+import { useState, useEffect } from 'react';
+import './Table.css';
+import Table from 'react-bootstrap/Table';
 import axios from 'axios';
-import Filter from '../Filter/Filter'
-import Community from '../Community/Community'
+import Filter from '../Filter/Filter';
+import Community from '../Community/Community';
 
 
-export const Table_main = ({ apiEndpoint }) => {
-  
+
+export const Table_main = ({   }) => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -17,16 +17,16 @@ export const Table_main = ({ apiEndpoint }) => {
   const [lccnValue, setLccnValue] = useState('');
   const [communityMembers, setCommunityMembers] = useState([]);
 
-  const handleCommunitySubmit = async (member) => {
-    setCommunityMembers([...communityMembers, member]);
-  };
 
+  const handleCommunitySubmit = (member) => {
+    setCommunityMembers((prevMembers) => [...prevMembers, member]);
+  };
+const proxy_Server = import.meta.env.VITE_API_proxy_Server;
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://cors-anywhere.herokuapp.com/${apiEndpoint}`);
-        console.log(response.data); 
-        setData(response.data.newspapers); 
+        const response = await axios.get(proxy_Server);
+        setData(response.data.newspapers);
         setFilteredData(response.data.newspapers);
         setIsLoading(false);
       } catch (error) {
@@ -36,7 +36,8 @@ export const Table_main = ({ apiEndpoint }) => {
     };
 
     fetchData();
-  }, [apiEndpoint]);
+  }, );
+
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -52,20 +53,18 @@ export const Table_main = ({ apiEndpoint }) => {
     fetchMembers();
   }, []);
 
+  
   useEffect(() => {
-    console.log(`State Filter: ${stateValue}, LCCN Filter: ${lccnValue}`); 
-
     let filtered = data;
 
     if (stateValue) {
-      filtered = filtered.filter(item => item.state.toLowerCase().includes(stateValue.toLowerCase()));
+      filtered = filtered.filter((item) => item.state.toLowerCase().includes(stateValue.toLowerCase()));
     }
 
     if (lccnValue) {
-      filtered = filtered.filter(item => item.lccn.toLowerCase().startsWith(lccnValue.toLowerCase()));
+      filtered = filtered.filter((item) => item.lccn.toLowerCase().startsWith(lccnValue.toLowerCase()));
     }
 
-    console.log('Filtered Data:', filtered); 
     setFilteredData(filtered);
   }, [stateValue, lccnValue, data]);
 
@@ -81,9 +80,7 @@ export const Table_main = ({ apiEndpoint }) => {
     window.open(url, '_blank');
   };
 
-  const resultMessage = filteredData.length > 0 ? 
-    `There are a total of ${filteredData.length} results found` : 
-    'There were no results found';
+  const resultMessage = filteredData.length > 0 ? `There are a total of ${filteredData.length} results found` : 'There were no results found';
 
   return (
     <div className="table-border-container">
@@ -116,7 +113,10 @@ export const Table_main = ({ apiEndpoint }) => {
         </Table>
       </div>
       <p className="table-row-count">{resultMessage}</p>
-      <Community onSubmit={handleCommunitySubmit} />
+
+ 
+      <Community onMemberAdded={handleCommunitySubmit} />
+      
       <div className="community-list">
         <h3>Community Members</h3>
         <Table responsive bordered>
@@ -142,7 +142,4 @@ export const Table_main = ({ apiEndpoint }) => {
   );
 };
 
-        
-    
-  
-  export default Table_main;
+export default Table_main;

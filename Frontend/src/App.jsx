@@ -12,7 +12,7 @@ function App() {
   return (
     
       <div>
-        <Table_main apiEndpoint="https://chroniclingamerica.loc.gov/newspapers.json" />
+        <Table_main />
       </div>
       
     
