@@ -17,11 +17,14 @@ export const Table_main = ({   }) => {
   const [lccnValue, setLccnValue] = useState('');
   const [communityMembers, setCommunityMembers] = useState([]);
 
-
+  const proxy_Server = import.meta.env.VITE_API_proxy_Server;
+  const backend_Server = import.meta.env.VITE_API_backend_Server;
+  
   const handleCommunitySubmit = (member) => {
     setCommunityMembers((prevMembers) => [...prevMembers, member]);
   };
-const proxy_Server = import.meta.env.VITE_API_proxy_Server;
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,7 +45,7 @@ const proxy_Server = import.meta.env.VITE_API_proxy_Server;
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/members');
+        const response = await axios.get(backend_Server);
         setCommunityMembers(response.data);
       } catch (error) {
         console.error('Error fetching members:', error);

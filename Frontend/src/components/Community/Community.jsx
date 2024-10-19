@@ -5,12 +5,13 @@ import './Community.css';
 const Community = ({ onMemberAdded }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const backend_Server = import.meta.env.VITE_API_backend_Server;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (name && email) {
       try {
-        const response = await axios.post('http://localhost:5000/api/members', { name, email });
+        const response = await axios.post(backend_Server, { name, email });
         onMemberAdded(response.data);
         setName('');
         setEmail('');
