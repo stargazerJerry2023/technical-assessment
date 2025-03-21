@@ -3,36 +3,52 @@
   border: 2px solid #000; 
   padding: 10px;
   margin-bottom: 20px; 
+  width: 100%;
+  overflow-x: auto;
 }
 
 .filter-container {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
 .filter-label {
   margin-right: 10px;
   font-weight: bold;
+  white-space: nowrap;
 }
 
 .filter-select {
   margin-right: 10px;
   padding: 5px;
+  min-width: 150px;
 }
 
 .filter-input {
   padding: 5px;
+  width: 100%;
+  max-width: 200px;
 }
 
 .table-wrapper {
   max-height: 400px; 
   overflow-y: auto;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-wrapper table {
+  width: 100%;
+  min-width: 600px;
 }
 
 .table-wrapper a {
   text-decoration: none; 
   color: inherit; 
+  word-break: break-word;
 }
 
 .table-wrapper a:hover {
@@ -42,9 +58,31 @@
 .table-row-count {
   margin-top: 10px; 
   font-size: 14px; 
-  color: #000;
+  color: white;
   background-color: blue; 
   padding: 10px;
   border-radius: 5px;
-  color: white;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .filter-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-select,
+  .filter-input {
+    width: 100%;
+    max-width: none;
+  }
+
+  .table-wrapper {
+    max-height: 300px;
+  }
+
+  .table-row-count {
+    font-size: 12px;
+    padding: 8px;
+  }
 }

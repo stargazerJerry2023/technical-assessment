@@ -1,6 +1,3 @@
-/* src/components/Community/Community.css */
-
-/* src/components/Community/Community.css */
 
 .community-container {
   margin-top: 20px;
@@ -8,21 +5,29 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #f9f9f9;
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .community-form .form-group {
   margin-bottom: 15px;
+  width: 100%;
 }
 
 .community-form label {
   display: block;
   margin-bottom: 5px;
+  font-weight: 500;
 }
 
 .community-form input {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 
 .submit-button {
@@ -32,8 +37,29 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  width: 100%;
+  max-width: 200px;
+  transition: background-color 0.2s ease;
 }
 
 .submit-button:hover {
   background-color: darkblue;
+}
+
+@media (max-width: 768px) {
+  .community-container {
+    padding: 15px;
+    margin-top: 15px;
+  }
+
+  .community-form input {
+    padding: 10px;
+    font-size: 16px; 
+  }
+
+  .submit-button {
+    max-width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
 }
